@@ -2,10 +2,7 @@ package com.siprianodev.produtosapi.controller;
 
 import com.siprianodev.produtosapi.model.Produto;
 import com.siprianodev.produtosapi.repository.ProdutoRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -21,11 +18,17 @@ public class ProdutoController {
 
     @PostMapping
     public Produto salvar(@RequestBody Produto produto) {
-        System.out.println("Produto recebido: " + produto);
         var id =UUID.randomUUID().toString();
         produto.setId(id);
         produtoRepository.save(produto);
+        System.out.println("Produto recebido: " + produto);
         return produto;
+    }
+
+    @GetMapping("{id}")
+    public Produto obterPorId(@PathVariable("id") String id) {
+        //(isPresent)retorna o obj dentro do optional ou null
+        return produtoRepository.findById(id).orElse(null);
     }
 
 }
