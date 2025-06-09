@@ -16,7 +16,7 @@ public class Application {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(Application.class);
 
 		builder.profiles("producao", "homologação");
-		builder.bannerMode(Banner.Mode.OFF);
+		//builder.bannerMode(Banner.Mode.OFF);
 		builder.run(args);
 
 		//Contexto da aplicação inicia depois
