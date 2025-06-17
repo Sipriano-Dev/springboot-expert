@@ -20,6 +20,7 @@ public class BeanGerenciado {
     @Autowired
     private TodoValidator validator;
 
+
     //Injeção forma 1 = mais recomendada pelo spring team
     @Autowired//não obrigatório no construtor
     public BeanGerenciado(TodoValidator validator) {

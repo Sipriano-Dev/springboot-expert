@@ -1,15 +1,18 @@
 package com.sipriano.arquiteturaspring;
 
+import com.sipriano.arquiteturaspring.todos.AppProperties;
 import com.sipriano.arquiteturaspring.todos.ExemploValue;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
+@EnableConfigurationProperties
 public class Application {
 
 	public static void main(String[] args) {
@@ -32,6 +35,9 @@ public class Application {
 		ExemploValue exemploValue = applicationContext.getBean(ExemploValue.class);
 		System.out.print("Valor da variável: ");
 		exemploValue.imprimirVariavel();
+
+		AppProperties appProperties = applicationContext.getBean(AppProperties.class);
+		System.out.println(appProperties.getValor1());
 
 
 	}

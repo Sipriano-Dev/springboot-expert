@@ -20,4 +20,5 @@ spring:
 app:
   config:
     variavel: x
+    valor1: 500
 
