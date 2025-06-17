@@ -3,6 +3,14 @@ package com.sipriano.arquiteturaspring.todos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//Escopo Singleton é o padrão(usa a mesma instancia pra tudo)
+//Escopo Prototype pra cada usuário, uma instancia
+//Escopo Request só existe durante a requisição, não guarda estado
+//Escopo Session dura enquanto a sessão do usuário durar, guarda estado durante sessão(logado)
+//Escopo Application igual session(usuário), mas pra aplicação(todos usuários)
+//@Scope("Singleton")
+//@Scope(BeanDefinition.SCOPE_SINGLETON)//Prototype também vai estar aqui
+//@Scope(WebApplicationContext.SCOPE_APPLICATION)//As outras vão estar aqui, pois são web
 @Component
 public class BeanGerenciado {
 
