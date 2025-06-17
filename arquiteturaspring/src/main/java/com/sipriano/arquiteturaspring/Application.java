@@ -17,6 +17,7 @@ public class Application {
 
 		builder.profiles("producao", "homologação");
 		//builder.bannerMode(Banner.Mode.OFF);
+		//builder.lazyInitialization(true);//todos os beans serão lazy
 		builder.run(args);
 
 		//Contexto da aplicação inicia depois
