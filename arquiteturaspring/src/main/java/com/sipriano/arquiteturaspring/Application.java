@@ -1,5 +1,6 @@
 package com.sipriano.arquiteturaspring;
 
+import com.sipriano.arquiteturaspring.todos.ExemploValue;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,6 +28,10 @@ public class Application {
 		Environment environment = applicationContext.getEnvironment();
 		String propertyName = environment.getProperty("spring.application.name");
 		System.out.println(propertyName);
+
+		ExemploValue exemploValue = applicationContext.getBean(ExemploValue.class);
+		System.out.print("Valor da variável: ");
+		exemploValue.imprimirVariavel();
 
 
 	}
