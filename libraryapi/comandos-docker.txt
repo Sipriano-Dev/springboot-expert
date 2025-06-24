@@ -5,4 +5,22 @@ docker run --name librarydb -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postg
 # Criar Pgadmin 4
 docker run --name pgadmin4 -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=admin -p 15432:80 -d --network library-network dpage/pgadmin4:8.9
 
-# Iniciar ambos: docker start libraydb, docker start pgadmin4
+# Iniciar ambos:
+docker start <name>
+
+# Criar Network:
+docker network create library-network
+
+# Stopa container
+docker stop <name>
+
+# Mostra container ativos
+docker ps
+
+# Mostra container ativo e não ativo
+docker ps -a
+
+# Mostrar todas as portas utilizadas
+netstat -aof
+# Procurar porta especifica, se não aparecer é que a porta ta livre
+netstat -aof | findstr 5432
