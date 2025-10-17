@@ -3,6 +3,7 @@ package com.sipriano.libraryapi.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class Livro {
     private GeneroLivro genero;
 
     @Column(name = "preco", precision = 18, scale = 2)
-    private Double preco;
+    private BigDecimal preco;
     //private BigDecimal preco; // Mais preciso para valores monetários
 
     @ManyToOne
