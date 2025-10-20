@@ -36,4 +36,43 @@ class LivroRepositoryTest {
         repository.save(livro);
     }
 
+    @Test
+    void salvarCascadeTest() {
+        Livro livro = new Livro();
+        livro.setIsbn("9582-4356");
+        livro.setPreco(BigDecimal.valueOf(120));
+        livro.setGenero(GeneroLivro.FICCAO);
+        livro.setTitulo("Ufo Around Again");
+        livro.setDataPublicacao(LocalDate.of(1982, 10, 2));
+
+        Autor autor = new Autor();
+        autor.setNome("Felipe");
+        autor.setNacionalidade("Brasileira");
+        autor.setDataNascimento(LocalDate.of(2007, 2, 10));
+
+        livro.setAutor(autor);
+
+        repository.save(livro);
+    }
+
+    @Test
+    void salvarAutorELivroTest() {
+        Livro livro = new Livro();
+        livro.setIsbn("10584-1394");
+        livro.setPreco(BigDecimal.valueOf(150));
+        livro.setGenero(GeneroLivro.FICCAO);
+        livro.setTitulo("Ufo Around Again");
+        livro.setDataPublicacao(LocalDate.of(1985, 10, 2));
+
+        Autor autor = new Autor();
+        autor.setNome("João");
+        autor.setNacionalidade("Brasileira");
+        autor.setDataNascimento(LocalDate.of(1994, 4, 15));
+        autorRepository.save(autor);
+
+        livro.setAutor(autor);
+
+        repository.save(livro);
+    }
+
 }
