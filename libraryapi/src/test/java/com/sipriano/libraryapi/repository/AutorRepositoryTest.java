@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,9 +20,9 @@ public class AutorRepositoryTest {
     public void salvarTest() {
 
         Autor autor = new Autor();
-        autor.setNome("Andressa");
+        autor.setNome("Felipe");
         autor.setNacionalidade("Brasileira");
-        autor.setDataNascimento(LocalDate.of(1986, 10, 14));
+        autor.setDataNascimento(LocalDate.of(2007, 2, 10));
 
         var autorSalvo = repository.save(autor);
         System.out.println("Autor salvo: " + autorSalvo);
@@ -42,6 +43,31 @@ public class AutorRepositoryTest {
             autorEncontrado.setDataNascimento(LocalDate.of(1995, 10, 11));
             repository.save(autorEncontrado);
         }
+    }
+
+    @Test
+    public void listarTest() {
+        List<Autor> lista = repository.findAll();
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    public void countTest() {
+        System.out.println("Contagem de autores: " + repository.count());
+    }
+
+    @Test
+    public void deletePorIdTest() {
+        var id = UUID.fromString("3f629f71-1549-44f8-b090-57b0ef3efe34");
+        repository.deleteById(id);
+    }
+
+    @Test
+    public void deleteTest() {
+        var id = UUID.fromString("3f629f71-1549-44f8-b090-57b0ef3efe34");
+        Optional<Autor> possivelAutor = repository.findById(id);
+        possivelAutor.ifPresent(autor -> repository.delete(autor));
+
     }
 
 }
