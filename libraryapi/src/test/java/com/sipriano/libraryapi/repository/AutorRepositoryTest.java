@@ -1,11 +1,15 @@
 package com.sipriano.libraryapi.repository;
 
 import com.sipriano.libraryapi.model.Autor;
+import com.sipriano.libraryapi.model.GeneroLivro;
+import com.sipriano.libraryapi.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,6 +19,9 @@ public class AutorRepositoryTest {
 
     @Autowired
     AutorRepository repository;
+
+    @Autowired
+    LivroRepository livroRepository;
 
     @Test
     public void salvarTest() {
@@ -69,5 +76,39 @@ public class AutorRepositoryTest {
         possivelAutor.ifPresent(autor -> repository.delete(autor));
 
     }
+
+    @Test
+    void salvarAutorComLivroTest() {
+        Autor autor = new Autor();
+        autor.setNome("Anderson");
+        autor.setNacionalidade("Brasileira");
+        autor.setDataNascimento(LocalDate.of(1988, 10, 14));
+
+        Livro livro = new Livro();
+        livro.setIsbn("4853-3848");
+        livro.setPreco(BigDecimal.valueOf(90));
+        livro.setGenero(GeneroLivro.FICCAO);
+        livro.setTitulo("Horse in around");
+        livro.setDataPublicacao(LocalDate.of(2020, 10, 14));
+        livro.setAutor(autor);
+
+        Livro livro2 = new Livro();
+        livro2.setIsbn("4853-3678");
+        livro2.setPreco(BigDecimal.valueOf(80));
+        livro2.setGenero(GeneroLivro.FICCAO);
+        livro2.setTitulo("Horse in around 2");
+        livro2.setDataPublicacao(LocalDate.of(2022, 10, 14));
+        livro2.setAutor(autor);
+
+
+        autor.setLivros(new ArrayList<>());
+        autor.getLivros().add(livro);
+        autor.getLivros().add(livro2);
+
+        repository.save(autor);
+
+        //livroRepository.saveAll(autor.getLivros());
+    }
+
 
 }
