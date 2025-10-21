@@ -33,7 +33,10 @@ public class Livro {
     private BigDecimal preco;
     //private BigDecimal preco; // Mais preciso para valores monetários
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(
+            //cascade = CascadeType.ALL
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "id_autor")
     private Autor autor;
 
