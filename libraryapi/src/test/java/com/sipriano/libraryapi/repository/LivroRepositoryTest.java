@@ -159,7 +159,11 @@ class LivroRepositoryTest {
         list.forEach(System.out::println);
     }
 
-
+    @Test
+    void listarPorGeneroQueryParam() {
+        var lista = repository.findByGenero(GeneroLivro.FICCAO);
+        lista.forEach(System.out::println);
+    }
 
 
 }

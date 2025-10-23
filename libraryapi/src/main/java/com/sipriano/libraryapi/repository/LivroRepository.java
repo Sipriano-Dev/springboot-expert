@@ -1,9 +1,11 @@
 package com.sipriano.libraryapi.repository;
 
 import com.sipriano.libraryapi.model.Autor;
+import com.sipriano.libraryapi.model.GeneroLivro;
 import com.sipriano.libraryapi.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -60,5 +62,12 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
             ORDER BY l.genero
             """)
     List<String> listarGenerosAutoresBrasileiros();
+
+    //Named Parameters -> Parametros nomeados
+    //O Positional parameters vc coloca o ?1 no lugar do :genero
+    @Query("SELECT l FROM Livro l WHERE l.genero = :genero ORDER BY l.preco" )
+    List<Livro> findByGenero(@Param("genero") GeneroLivro generoLivro);
+
+
 
 }
