@@ -4,8 +4,10 @@ import com.sipriano.libraryapi.model.Autor;
 import com.sipriano.libraryapi.model.GeneroLivro;
 import com.sipriano.libraryapi.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -67,6 +69,16 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
     //O Positional parameters vc coloca o ?1 no lugar do :genero
     @Query("SELECT l FROM Livro l WHERE l.genero = :genero ORDER BY l.preco" )
     List<Livro> findByGenero(@Param("genero") GeneroLivro generoLivro);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Livro WHERE genero = ?1 ")
+    void deleteByGenero(GeneroLivro genero);
+
+    @Modifying
+    @Transactional
+    @Query(" UPDATE Livro l SET dataPublicacao = ?1 WHERE l.autor.nome = 'Gabrielle' ")
+    void updateDataPublicacao(LocalDate novaData);
 
 
 

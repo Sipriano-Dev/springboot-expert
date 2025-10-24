@@ -25,11 +25,11 @@ class LivroRepositoryTest {
     @Test
     void salvarTest() {
         Livro livro = new Livro();
-        livro.setIsbn("8568-2464");
-        livro.setPreco(BigDecimal.valueOf(100));
-        livro.setGenero(GeneroLivro.FICCAO);
-        livro.setTitulo("Ufo Around");
-        livro.setDataPublicacao(LocalDate.of(1980, 10, 2));
+        livro.setIsbn("5468-5223");
+        livro.setPreco(BigDecimal.valueOf(120));
+        livro.setGenero(GeneroLivro.FANTASIA);
+        livro.setTitulo("O pote de ouro");
+        livro.setDataPublicacao(LocalDate.of(1957, 10, 2));
 
         Autor autor = autorRepository
                 .findById(UUID.fromString("d8282fcd-8f57-4147-b223-e3ed91dec5f6"))
@@ -42,16 +42,16 @@ class LivroRepositoryTest {
     @Test
     void salvarCascadeTest() {
         Livro livro = new Livro();
-        livro.setIsbn("9582-4356");
+        livro.setIsbn("5468-5223");
         livro.setPreco(BigDecimal.valueOf(120));
-        livro.setGenero(GeneroLivro.FICCAO);
-        livro.setTitulo("Ufo Around Again");
-        livro.setDataPublicacao(LocalDate.of(1982, 10, 2));
+        livro.setGenero(GeneroLivro.FANTASIA);
+        livro.setTitulo("O pote de ouro");
+        livro.setDataPublicacao(LocalDate.of(1922, 10, 2));
 
         Autor autor = new Autor();
-        autor.setNome("Felipe");
-        autor.setNacionalidade("Brasileira");
-        autor.setDataNascimento(LocalDate.of(2007, 2, 10));
+        autor.setNome("Alfred do batman");
+        autor.setNacionalidade("Europeu");
+        autor.setDataNascimento(LocalDate.of(1880, 2, 10));
 
         livro.setAutor(autor);
 
@@ -61,16 +61,16 @@ class LivroRepositoryTest {
     @Test
     void salvarAutorELivroTest() {
         Livro livro = new Livro();
-        livro.setIsbn("3643-2463");
-        livro.setPreco(BigDecimal.valueOf(99));
-        livro.setGenero(GeneroLivro.FICCAO);
-        livro.setTitulo("Is there any ufo");
-        livro.setDataPublicacao(LocalDate.of(1988, 8, 14));
+        livro.setIsbn("5468-4632");
+        livro.setPreco(BigDecimal.valueOf(150));
+        livro.setGenero(GeneroLivro.BIOGRAFIA);
+        livro.setTitulo("O pote de ouro");
+        livro.setDataPublicacao(LocalDate.of(1925, 10, 2));
 
         Autor autor = new Autor();
-        autor.setNome("Anderson");
-        autor.setNacionalidade("Brasileira");
-        autor.setDataNascimento(LocalDate.of(1988, 10, 14));
+        autor.setNome("Alfred do batman");
+        autor.setNacionalidade("Europeu");
+        autor.setDataNascimento(LocalDate.of(1880, 2, 10));
         autorRepository.save(autor);
 
         livro.setAutor(autor);
@@ -163,6 +163,16 @@ class LivroRepositoryTest {
     void listarPorGeneroQueryParam() {
         var lista = repository.findByGenero(GeneroLivro.FICCAO);
         lista.forEach(System.out::println);
+    }
+
+    @Test
+    void deletePorGeneroTest() {
+        repository.deleteByGenero(GeneroLivro.BIOGRAFIA);
+    }
+
+    @Test
+    void updateDataPublicacaoTest() {
+        repository.updateDataPublicacao(LocalDate.of(2024, 10, 11));
     }
 
 
