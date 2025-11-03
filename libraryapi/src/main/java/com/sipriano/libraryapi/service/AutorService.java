@@ -44,4 +44,8 @@ public class AutorService {
 
         return autorRepository.findAll();
     }
+
+    public void atualizar(Autor autor) {
+        autorRepository.save(autor);
+    }
 }
