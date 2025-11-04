@@ -2,6 +2,7 @@ package com.sipriano.libraryapi.service;
 
 import com.sipriano.libraryapi.model.Autor;
 import com.sipriano.libraryapi.repository.AutorRepository;
+import com.sipriano.libraryapi.validator.AutorValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,12 +13,15 @@ import java.util.UUID;
 public class AutorService {
 
     private AutorRepository autorRepository;
+    private final AutorValidator validator;
 
-    public AutorService(AutorRepository repository) {
+    public AutorService(AutorRepository repository, AutorValidator validator) {
         this.autorRepository = repository;
+        this.validator = validator;
     }
 
     public Autor salvar(Autor autor) {
+        validator.validar(autor);
         return autorRepository.save(autor);
     }
 
@@ -46,6 +50,7 @@ public class AutorService {
     }
 
     public void atualizar(Autor autor) {
+        validator.validar(autor);
         autorRepository.save(autor);
     }
 }
