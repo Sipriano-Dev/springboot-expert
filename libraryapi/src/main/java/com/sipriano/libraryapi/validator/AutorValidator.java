@@ -27,11 +27,13 @@ public class AutorValidator {
                 autor.getNome(), autor.getDataNascimento(), autor.getNacionalidade()
         );
 
+        //Significa q é um cadastro pois não tem id
         if (autor.getId() == null) {
             return autorEncontrado.isPresent();
         }
 
-        return !autor.getId().equals(autorEncontrado.get().getId()) && autorEncontrado.isPresent();
+        //Não é null, tem id, logo vai seguir a lógica abaixo
+        return autorEncontrado.isPresent() && !autor.getId().equals(autorEncontrado.get().getId());
     }
 
 }

@@ -1,7 +1,9 @@
 package com.sipriano.libraryapi.service;
 
+import com.sipriano.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.sipriano.libraryapi.model.Autor;
 import com.sipriano.libraryapi.repository.AutorRepository;
+import com.sipriano.libraryapi.repository.LivroRepository;
 import com.sipriano.libraryapi.validator.AutorValidator;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,13 @@ import java.util.UUID;
 @Service
 public class AutorService {
 
-    private AutorRepository autorRepository;
+    private final AutorRepository autorRepository;
+    private final LivroRepository livroRepository;
     private final AutorValidator validator;
 
-    public AutorService(AutorRepository repository, AutorValidator validator) {
-        this.autorRepository = repository;
+    public AutorService(AutorRepository autorRepository, LivroRepository livroRepository, AutorValidator validator) {
+        this.autorRepository = autorRepository;
+        this.livroRepository = livroRepository;
         this.validator = validator;
     }
 
@@ -30,6 +34,9 @@ public class AutorService {
     }
 
     public void deletar(Autor autor) {
+        if (possuiLivro(autor)) {
+            throw new OperacaoNaoPermitidaException("Não é permitido excluir um autor que possui livros cadastrados!");
+        }
         autorRepository.delete(autor);
     }
 
@@ -53,4 +60,10 @@ public class AutorService {
         validator.validar(autor);
         autorRepository.save(autor);
     }
+
+    public boolean possuiLivro(Autor autor) {
+        return livroRepository.existsByAutor(autor);
+    }
+
+
 }
