@@ -17,8 +17,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErroResposta handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        List<FieldError> fieldErrors = e.getFieldErrors();
-        List<ErroCampo> listaErros = fieldErrors
+
+        List<ErroCampo> listaErros = e.getFieldErrors()
                 .stream()
                 .map(error -> new ErroCampo(error.getField(), error.getDefaultMessage()))
                 .toList();
