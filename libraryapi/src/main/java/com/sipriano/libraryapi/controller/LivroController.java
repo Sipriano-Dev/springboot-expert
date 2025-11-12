@@ -19,23 +19,20 @@ import java.net.URI;
 @RestController
 @RequestMapping("/livros")
 @RequiredArgsConstructor
-public class LivroController implements GenericController{
+public class LivroController implements GenericController {
 
     private final LivroService service;
     private final LivroMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody @Valid CadastroLivroDTO livroDTO) {
-        try {
-            Livro livro = mapper.toEntity(livroDTO);
-            service.salvar(livro);
-            var url = gerarHeaderLocation(livro.getId());
-            // retorna codigo created com header url no ResponseEntity
-            return ResponseEntity.created(url).build();
-        } catch (RegistroDuplicadoException e) {
-            var erroDTO = ErroResposta.conflito(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
-        }
+    public ResponseEntity<Void> salvar(@RequestBody @Valid CadastroLivroDTO livroDTO) {
+
+        Livro livro = mapper.toEntity(livroDTO);
+        service.salvar(livro);
+        var url = gerarHeaderLocation(livro.getId());
+        // retorna codigo created com header url no ResponseEntity
+        return ResponseEntity.created(url).build();
+
     }
 
 }
