@@ -1,3 +1,6 @@
+# Spring Boot Expert: JPA, REST, JWT, OAuth2 com Docker e AWS
+https://www.udemy.com/course/spring-boot-expert/?couponCode=MT251110G3
+
 ## O que você vai aprender:
 
 > ### Do Zero o deploy: 

@@ -2,6 +2,7 @@ package com.sipriano.libraryapi.controller;
 
 import com.sipriano.libraryapi.controller.dto.CadastroLivroDTO;
 import com.sipriano.libraryapi.controller.dto.ErroResposta;
+import com.sipriano.libraryapi.controller.mappers.LivroMapper;
 import com.sipriano.libraryapi.exceptions.RegistroDuplicadoException;
 import com.sipriano.libraryapi.model.Livro;
 import com.sipriano.libraryapi.service.LivroService;
@@ -19,15 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class LivroController {
 
     private final LivroService service;
+    private final LivroMapper mapper;
 
     @PostMapping
     public ResponseEntity<Object> salvar(@RequestBody @Valid CadastroLivroDTO livroDTO) {
         try {
-            // mapear dto para entidade
-            // enviar a entidade para o service validar e salvar na base
+            Livro livro = mapper.toEntity(livroDTO);
+            service.salvar(livro);
             // criar url pra acesso dos dados do livro
             // retorna codigo created com header location no ResponseEntity
-            return ResponseEntity.ok(livroDTO);
+            return ResponseEntity.ok(livro);
         } catch (RegistroDuplicadoException e) {
             var erroDTO = ErroResposta.conflito(e.getMessage());
             return ResponseEntity.status(erroDTO.status()).body(erroDTO);
