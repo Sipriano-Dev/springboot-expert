@@ -23,7 +23,7 @@ import java.util.UUID;
 //host::8080/autores
 //http://localhost/8080/autores
 @RequiredArgsConstructor
-public class AutorController {
+public class AutorController implements GenericController {
 
     private final AutorService autorService;
     private final AutorMapper mapper;
@@ -33,14 +33,7 @@ public class AutorController {
         try {
             Autor autor = mapper.toEntity(autorDTO);
             autorService.salvar(autor);
-
-            //http://localhost/8080/autores/d8282fcd-8f57-4147-b223-e3ed91dec5f6
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(autor.getId())
-                    .toUri();
-
+            URI location = gerarHeaderLocation(autor.getId());
             return ResponseEntity.created(location).build();
         } catch (RegistroDuplicadoException e) {
             var erroDTO = ErroResposta.conflito(e.getMessage());
