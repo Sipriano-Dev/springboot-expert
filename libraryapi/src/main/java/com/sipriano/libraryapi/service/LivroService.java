@@ -1,10 +1,13 @@
 package com.sipriano.libraryapi.service;
 
+import com.sipriano.libraryapi.model.GeneroLivro;
 import com.sipriano.libraryapi.model.Livro;
 import com.sipriano.libraryapi.repository.LivroRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +27,13 @@ public class LivroService {
 
     public void deletar(Livro livro) {
         repository.delete(livro);
+    }
+
+    public List<Livro> pesquisa(
+            String isbn, String titulo, String nomeAutor, GeneroLivro genero, int dataPublicacao) {
+
+        Specification<Livro> specs = null;
+        return repository.findAll(specs);
     }
 
 }
