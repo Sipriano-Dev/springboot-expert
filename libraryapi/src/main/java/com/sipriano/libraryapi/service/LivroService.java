@@ -3,9 +3,12 @@ package com.sipriano.libraryapi.service;
 import com.sipriano.libraryapi.model.GeneroLivro;
 import com.sipriano.libraryapi.model.Livro;
 import com.sipriano.libraryapi.repository.LivroRepository;
+import com.sipriano.libraryapi.repository.specs.LivroSpecs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import static com.sipriano.libraryapi.repository.specs.LivroSpecs.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +35,19 @@ public class LivroService {
     public List<Livro> pesquisa(
             String isbn, String titulo, String nomeAutor, GeneroLivro genero, int dataPublicacao) {
 
-        Specification<Livro> specs = null;
+        Specification<Livro> specs = Specification.where((root, query, cb) -> cb.conjunction());
+        if (isbn != null) {
+            specs = specs.and(isbnEqual(isbn));
+        }
+
+        if (titulo != null) {
+            specs = specs.and(tituloLike(titulo));
+        }
+
+        if (genero != null) {
+            specs = specs.and(genero(genero));
+        }
+
         return repository.findAll(specs);
     }
 
