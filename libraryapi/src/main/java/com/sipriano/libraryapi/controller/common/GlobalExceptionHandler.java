@@ -2,6 +2,7 @@ package com.sipriano.libraryapi.controller.common;
 
 import com.sipriano.libraryapi.controller.dto.ErroCampo;
 import com.sipriano.libraryapi.controller.dto.ErroResposta;
+import com.sipriano.libraryapi.exceptions.CampoInvalidoException;
 import com.sipriano.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.sipriano.libraryapi.exceptions.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,15 @@ public class GlobalExceptionHandler {
     public ErroResposta handleOperacaoNaoPermitidaException(OperacaoNaoPermitidaException e) {
 
         return ErroResposta.conflito(e.getMessage());
+    }
+
+    @ExceptionHandler(CampoInvalidoException .class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErroResposta handleCampoInvalidoException(CampoInvalidoException e) {
+        return new ErroResposta(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Erro de validação",
+                List.of(new ErroCampo(e.getCampo(), e.getMessage())));
     }
 
     @ExceptionHandler(RuntimeException.class)
