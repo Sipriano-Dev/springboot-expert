@@ -1,21 +1,17 @@
 package com.sipriano.libraryapi.controller;
 
 import com.sipriano.libraryapi.controller.dto.CadastroLivroDTO;
-import com.sipriano.libraryapi.controller.dto.ErroResposta;
 import com.sipriano.libraryapi.controller.dto.ResultadoPesquisaLivroDTO;
 import com.sipriano.libraryapi.controller.mappers.LivroMapper;
-import com.sipriano.libraryapi.exceptions.RegistroDuplicadoException;
 import com.sipriano.libraryapi.model.GeneroLivro;
 import com.sipriano.libraryapi.model.Livro;
 import com.sipriano.libraryapi.service.LivroService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.dialect.unique.CreateTableUniqueDelegate;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -57,19 +53,21 @@ public class LivroController implements GenericController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ResultadoPesquisaLivroDTO>> pesquisa(
+    public ResponseEntity<Page<ResultadoPesquisaLivroDTO>> pesquisa(
             @RequestParam(value = "isbn", required = false) String isbn,
             @RequestParam(value = "titulo", required = false) String titulo,
             @RequestParam(value = "nomeAutor", required = false) String nomeAutor,
             @RequestParam(value = "genero", required = false) GeneroLivro genero,
-            @RequestParam(value = "anoPublicacao", required = false) Integer anoPublicacao
+            @RequestParam(value = "anoPublicacao", required = false) Integer anoPublicacao,
+            @RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
+            @RequestParam(value = "tamanho-pagina", defaultValue = "10") Integer tamanhoPagina
+
     ) {
-        var resultado = service.pesquisa(isbn, titulo, nomeAutor, genero, anoPublicacao);
-        var lista = resultado
-                .stream()
-                .map(mapper::toDTO)
-                .toList();
-        return ResponseEntity.ok(lista);
+        var paginaResultado = service.pesquisa(isbn, titulo, nomeAutor, genero, anoPublicacao, pagina, tamanhoPagina);
+
+        Page<ResultadoPesquisaLivroDTO> resultado = paginaResultado.map(mapper::toDTO);
+        
+        return ResponseEntity.ok(resultado);
     }
 
     @PutMapping("{id}")
