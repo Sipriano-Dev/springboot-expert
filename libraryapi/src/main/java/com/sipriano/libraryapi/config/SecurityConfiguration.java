@@ -2,6 +2,7 @@ package com.sipriano.libraryapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,10 +23,16 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)//Desabilita proteção web, pra poder usar front externo
-                .formLogin(configurer -> configurer.loginPage("/login").permitAll())//Autentica pelo browser
+                .formLogin(configurer -> configurer.loginPage("/login"))//Autentica pelo browser
                 .httpBasic(Customizer.withDefaults())//Atutentica por outra aplicação http
                 .authorizeHttpRequests(authorize -> {
-                    //Qualquer requisição tem que estar autênticada
+                    authorize.requestMatchers("/login").permitAll();
+                    authorize.requestMatchers(HttpMethod.POST, "/autores/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.PUT, "/autores/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.DELETE, "/autores/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.GET, "/autores/**").hasAnyRole("ADMIN", "USER");
+                    authorize.requestMatchers("/livros/**").hasAnyRole("USER", "ADMIN");
+
                     authorize.anyRequest().authenticated();
                 })
                 .build();
@@ -39,7 +46,7 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         UserDetails user1 = User.builder()
-                .username("usuario")
+                .username("user")
                 .password(encoder.encode("123"))
                 .roles("USER")
                 .build();
