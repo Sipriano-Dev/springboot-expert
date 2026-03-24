@@ -29,3 +29,4 @@ create table usuario(
     senha varchar(300) not null,
     roles varchar[]
 );
+
