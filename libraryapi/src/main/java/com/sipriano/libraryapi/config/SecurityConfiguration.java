@@ -1,5 +1,7 @@
 package com.sipriano.libraryapi.config;
 
+import com.sipriano.libraryapi.security.CustomUserDetailsService;
+import com.sipriano.libraryapi.service.UsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -45,20 +47,23 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        UserDetails user1 = User.builder()
-                .username("user")
-                .password(encoder.encode("123"))
-                .roles("USER")
-                .build();
+    public UserDetailsService userDetailsService(UsuarioService usuarioService) {
+//        UserDetails user1 = User.builder()
+//                .username("user")
+//                .password(encoder.encode("123"))
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails user2 = User.builder()
+//                .username("admin")
+//                .password(encoder.encode("123"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(user1, user2);
 
-        UserDetails user2 = User.builder()
-                .username("admin")
-                .password(encoder.encode("123"))
-                .roles("ADMIN")
-                .build();
+        return new CustomUserDetailsService(usuarioService);
 
-        return new InMemoryUserDetailsManager(user1, user2);
     }
 
 }
