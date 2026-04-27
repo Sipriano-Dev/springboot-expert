@@ -4,6 +4,7 @@ import com.sipriano.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.sipriano.libraryapi.model.Autor;
 import com.sipriano.libraryapi.repository.AutorRepository;
 import com.sipriano.libraryapi.repository.LivroRepository;
+import com.sipriano.libraryapi.security.SecurityService;
 import com.sipriano.libraryapi.validator.AutorValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -21,9 +22,11 @@ public class AutorService {
     private final AutorRepository autorRepository;
     private final LivroRepository livroRepository;
     private final AutorValidator validator;
+    private final SecurityService securityService;
 
     public Autor salvar(Autor autor) {
         validator.validar(autor);
+        autor.setUsuario(securityService.obterUsuarioLogado());
         return autorRepository.save(autor);
     }
 

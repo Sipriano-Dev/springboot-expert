@@ -3,6 +3,7 @@ package com.sipriano.libraryapi.service;
 import com.sipriano.libraryapi.model.GeneroLivro;
 import com.sipriano.libraryapi.model.Livro;
 import com.sipriano.libraryapi.repository.LivroRepository;
+import com.sipriano.libraryapi.security.SecurityService;
 import com.sipriano.libraryapi.validator.LivroValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,9 +23,11 @@ public class LivroService {
 
     private final LivroRepository repository;
     private final LivroValidator validator;
+    private final SecurityService securityService;
 
     public Livro salvar(Livro livro) {
         validator.validar(livro);
+        livro.setUsuario(securityService.obterUsuarioLogado());
         return repository.save(livro);
     }
 

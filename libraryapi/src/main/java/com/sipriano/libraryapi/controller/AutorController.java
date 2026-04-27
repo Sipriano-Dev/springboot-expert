@@ -3,11 +3,16 @@ package com.sipriano.libraryapi.controller;
 import com.sipriano.libraryapi.controller.dto.AutorDTO;
 import com.sipriano.libraryapi.controller.mappers.AutorMapper;
 import com.sipriano.libraryapi.model.Autor;
+import com.sipriano.libraryapi.model.Usuario;
+import com.sipriano.libraryapi.security.SecurityService;
 import com.sipriano.libraryapi.service.AutorService;
+import com.sipriano.libraryapi.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
