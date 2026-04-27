@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/livros")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
 public class LivroController implements GenericController {
 
     private final LivroService service;
@@ -63,10 +65,11 @@ public class LivroController implements GenericController {
             @RequestParam(value = "tamanho-pagina", defaultValue = "10") Integer tamanhoPagina
 
     ) {
+        System.out.println("ENTROU NO MÉTODO");
         var paginaResultado = service.pesquisa(isbn, titulo, nomeAutor, genero, anoPublicacao, pagina, tamanhoPagina);
 
         Page<ResultadoPesquisaLivroDTO> resultado = paginaResultado.map(mapper::toDTO);
-        
+
         return ResponseEntity.ok(resultado);
     }
 

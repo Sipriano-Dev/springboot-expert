@@ -1,2 +1,15 @@
-admin, admin123
-user, user123
+{
+    "login": "Anderson",
+    "senha": "operadoer123",
+    "roles": [
+        "OPERADOR"
+    ]
+}
+
+{
+    "login": "Gabrielle",
+    "senha": "gerente123",
+    "roles": [
+        "GERENTE"
+    ]
+}

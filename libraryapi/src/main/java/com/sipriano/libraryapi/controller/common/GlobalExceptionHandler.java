@@ -7,18 +7,20 @@ import com.sipriano.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.sipriano.libraryapi.exceptions.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErroResposta handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
@@ -26,7 +28,7 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(error -> new ErroCampo(error.getField(), error.getDefaultMessage()))
                 .toList();
-        return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro de validação", listaErros);
+        return new ErroResposta(HttpStatus.UNPROCESSABLE_CONTENT.value(), "Erro de validação", listaErros);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -44,17 +46,24 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CampoInvalidoException .class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public ErroResposta handleCampoInvalidoException(CampoInvalidoException e) {
         return new ErroResposta(
-                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                HttpStatus.UNPROCESSABLE_CONTENT.value(),
                 "Erro de validação",
                 List.of(new ErroCampo(e.getCampo(), e.getMessage())));
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErroResposta handleAuthorizationDeniedException(AuthorizationDeniedException e) {
+        return new ErroResposta(HttpStatus.FORBIDDEN.value(), "Acesso Negado.", List.of());
     }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErroResposta handleErrosNaoTratado(RuntimeException e) {
+        e.printStackTrace();
         return new ErroResposta(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Ocorreu um erro inesperado, entre em contato com a Administração.",
