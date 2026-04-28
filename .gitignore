@@ -247,3 +247,4 @@ blog/bin/
 
 #Other Files
 *.ini
+*.env

@@ -27,7 +27,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)//Desabilita proteção web, pra poder usar front externo
-                .formLogin(configurer -> configurer.loginPage("/login"))//Autentica pelo browser
+//                .formLogin(configurer -> configurer.loginPage("/login"))//Autentica pelo browser
+                .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())//Atutentica por outra aplicação http
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/login").permitAll();
@@ -35,6 +36,7 @@ public class SecurityConfiguration {
 
                     authorize.anyRequest().authenticated();
                 })
+                .oauth2Login(Customizer.withDefaults())
                 .build();
     }
 
