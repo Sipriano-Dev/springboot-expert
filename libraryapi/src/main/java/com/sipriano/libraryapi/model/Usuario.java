@@ -28,6 +28,9 @@ public class Usuario {
     @Column
     private String senha;
 
+    @Column
+    private String email;
+
     @JdbcTypeCode(SqlTypes.ARRAY)
     @Column(name = "roles", columnDefinition = "varchar[]")
     private List<String> roles;

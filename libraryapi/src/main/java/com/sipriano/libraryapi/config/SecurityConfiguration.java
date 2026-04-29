@@ -1,6 +1,7 @@
 package com.sipriano.libraryapi.config;
 
 import com.sipriano.libraryapi.security.CustomUserDetailsService;
+import com.sipriano.libraryapi.security.LoginSocialSuccessHandler;
 import com.sipriano.libraryapi.service.UsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginSocialSuccessHandler successHandler) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)//Desabilita proteção web, pra poder usar front externo
 //                .formLogin(configurer -> configurer.loginPage("/login"))//Autentica pelo browser
@@ -38,7 +39,9 @@ public class SecurityConfiguration {
 
                     authorize.anyRequest().authenticated();
                 })
-                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(oauth2 -> {
+                    oauth2.successHandler(successHandler);
+                })
                 .build();
     }
 
