@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
+//pra obter o usuário, transformar em userDetails pra o security pegar, validar e trasnforma em authentication
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 

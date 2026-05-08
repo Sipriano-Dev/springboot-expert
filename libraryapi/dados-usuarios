@@ -1,6 +1,6 @@
 {
     "login": "Anderson",
-    "senha": "operadoer123",
+    "senha": "a123",
     "roles": [
         "OPERADOR"
     ]
@@ -8,7 +8,7 @@
 
 {
     "login": "Gabrielle",
-    "senha": "gerente123",
+    "senha": "g123",
     "roles": [
         "GERENTE"
     ]

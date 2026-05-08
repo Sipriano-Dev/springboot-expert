@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
+//retorna o usuário logado pra ser chamado no metodo de cadastro e inserir o id de quem ta adicionando (auditoria)
 @Component
 @RequiredArgsConstructor
 public class SecurityService {
