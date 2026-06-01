@@ -21,8 +21,8 @@ public class ClientService {
         return clientRepository.save(client);
     }
 
-    public Client obterClientePorId(UUID id) {
-        return clientRepository.findClientById(id);
+    public Client obterPorClientId(String clientId) {
+        return clientRepository.findClientByClientId(clientId);
     }
 
 }

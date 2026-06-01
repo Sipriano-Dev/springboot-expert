@@ -84,7 +84,7 @@ public class AuthorizationServerConfiguration {
     @Bean
     public JWKSource<SecurityContext> jwkSource() throws Exception {
         RSAKey rsaKey = geraChaveRSA();
-        JWKSet jwkSet = new JWKSet();
+        JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
     }
 
