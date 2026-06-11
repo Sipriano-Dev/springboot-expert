@@ -6,9 +6,6 @@ import com.sipriano.libraryapi.exceptions.CampoInvalidoException;
 import com.sipriano.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.sipriano.libraryapi.exceptions.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authorization.AuthorizationDeniedException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,7 +17,7 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErroResposta handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
@@ -28,7 +25,7 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(error -> new ErroCampo(error.getField(), error.getDefaultMessage()))
                 .toList();
-        return new ErroResposta(HttpStatus.UNPROCESSABLE_CONTENT.value(), "Erro de validação", listaErros);
+        return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro de validação", listaErros);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -46,17 +43,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CampoInvalidoException .class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErroResposta handleCampoInvalidoException(CampoInvalidoException e) {
         return new ErroResposta(
-                HttpStatus.UNPROCESSABLE_CONTENT.value(),
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
                 "Erro de validação",
                 List.of(new ErroCampo(e.getCampo(), e.getMessage())));
     }
 
-    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErroResposta handleAuthorizationDeniedException(AuthorizationDeniedException e) {
+    public ErroResposta handleAuthorizationDeniedException(AccessDeniedException e) {
         return new ErroResposta(HttpStatus.FORBIDDEN.value(), "Acesso Negado.", List.of());
     }
 

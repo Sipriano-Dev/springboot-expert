@@ -2,7 +2,7 @@
     "login": "Anderson",
     "senha": "a123",
     "roles": [
-        "OPERADOR"
+        "GERENTE"
     ]
 }
 
@@ -10,6 +10,6 @@
     "login": "Gabrielle",
     "senha": "g123",
     "roles": [
-        "GERENTE"
+        "OPERADOR"
     ]
 }

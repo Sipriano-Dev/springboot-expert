@@ -2,8 +2,8 @@ package com.sipriano.libraryapi.security;
 
 import com.sipriano.libraryapi.model.Usuario;
 import com.sipriano.libraryapi.service.UsuarioService;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
