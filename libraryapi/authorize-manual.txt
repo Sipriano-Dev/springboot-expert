@@ -1,0 +1,2 @@
+http://localhost:8080/authorized
+http://localhost:8080/oauth2/authorize?response_type=code&client_id=meu-client&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauthorized
