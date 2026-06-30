@@ -40,7 +40,6 @@ public class SecurityConfiguration {
         return http
                 .csrf(AbstractHttpConfigurer::disable)//Desabilita proteção web, pra poder usar front externo
                 .formLogin(configurer -> configurer.loginPage("/login"))//Autentica pelo browser
-                .httpBasic(Customizer.withDefaults())//Atutentica por outra aplicação http
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/login").permitAll();
                     authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
