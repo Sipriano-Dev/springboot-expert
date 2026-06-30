@@ -45,8 +45,10 @@ public class AuthorizationServerConfiguration {
     @Order(1)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
 
+        //Configura automaticamente os filtros e endpoints principais do Authorization Server.
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
+        //OpenID Connect -> identidade/login em cima do OAuth2
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());
 
