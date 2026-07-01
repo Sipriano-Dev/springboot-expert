@@ -27,7 +27,7 @@ spring:
 
 logging:
   pattern:
-    console: '%clr(%d{yyyy-MM-ss HH:mm:ss}){faint} %clr(%5p) %clr([%t]){faint} %clr(%-40.40logger){cyan} %clr(:){yellow} %m%n
+    console: '%clr(%d{yyyy-MM-ss HH:mm:ss}){faint} %clr(%5p) %clr([%t]){faint} %clr(%-40.40logger){cyan} %clr(:){yellow} %m%n'
   file:
     name: library-api.log
   level:
@@ -44,6 +44,14 @@ logging:
 # info -> informações gerais do funcionamento da app
 # warn -> avisos de eventos potencialmente problemáticos
 # error -> erros q de algo especifico mas q n causam interrupção total
+
+management:
+  server:
+    port: 9090
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 # os de cima tbm habilitam os de baixo, ordem de prioridade(error é só error)
 springdoc:
