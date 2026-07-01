@@ -25,6 +25,21 @@ spring:
 logging:
   file:
     name: library-api.log
+  level:
+    root: warn
+    com:
+      sipriano: trace
+    org:
+      springframework:
+        web: debug
+        security: trace
 
+# trace -> rastreamento minucioso
+# debug -> detalha fluxo e variáveis em execução
+# info -> informações gerais do funcionamento da app
+# warn -> avisos de eventos potencialmente problemáticos
+# error -> erros q de algo especifico mas q n causam interrupção total
+
+# os de cima tbm habilitam os de baixo, ordem de prioridade(error é só error)
 springdoc:
   override-with-generic-response: false
