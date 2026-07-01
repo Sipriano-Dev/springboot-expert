@@ -44,6 +44,7 @@ public class AutorController implements GenericController {
             @ApiResponse(responseCode = "409", description = "Autor já cadastrado")
     })
     public ResponseEntity<Void> salvar(@RequestBody @Valid AutorDTO autorDTO) {
+        log.info("Salvando Autor: {}", autorDTO.nome());
 
         Autor autor = mapper.toEntity(autorDTO);
         autorService.salvar(autor);
@@ -81,6 +82,7 @@ public class AutorController implements GenericController {
             @ApiResponse(responseCode = "400", description = "Autor possui livro cadastrado")
     })
     public ResponseEntity<Void> deletar(@PathVariable String id) {
+        log.info("Deletando Autor de id: {}", id);
 
         var idAutor = UUID.fromString(id);
         Optional<Autor> autorOptional = autorService.obterPorId(idAutor);
@@ -101,12 +103,6 @@ public class AutorController implements GenericController {
     public ResponseEntity<List<AutorDTO>> pesquisar(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
-
-        log.trace("Pesquisa Autores");
-        log.debug("Pesquisa Autores");
-        log.info("Pesquisa Autores");
-        log.warn("Pesquisa Autores");
-        log.error("Pesquisa Autores");
 
         List<Autor> lista = autorService.pesquisaByExample(nome, nacionalidade);
         List<AutorDTO> listaDTO = lista

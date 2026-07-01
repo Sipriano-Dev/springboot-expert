@@ -5,6 +5,7 @@ import com.sipriano.libraryapi.controller.dto.ErroResposta;
 import com.sipriano.libraryapi.exceptions.CampoInvalidoException;
 import com.sipriano.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.sipriano.libraryapi.exceptions.RegistroDuplicadoException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,12 +16,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErroResposta handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-
+        log.error("Erro ao processar os dados dos dados: {}", e.getMessage());
         List<ErroCampo> listaErros = e.getFieldErrors()
                 .stream()
                 .map(error -> new ErroCampo(error.getField(), error.getDefaultMessage()))
@@ -60,7 +62,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErroResposta handleErrosNaoTratado(RuntimeException e) {
-        e.printStackTrace();
+        log.error("Erro inesperado", e);
         return new ErroResposta(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Ocorreu um erro inesperado, entre em contato com a Administração.",
