@@ -39,3 +39,17 @@ CREATE TABLE client(
     scope varchar(50)
 );
 
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
+
+insert into usuario
+(id, login, senha, email, roles)
+values
+( uuid_generate_v4(), 'Anderson', '$2a$12$xpTSYdbnQ98TBy8QeO/UXutnCQS4wC1NBbJaoR9K3uiVh24GM1H0C',
+'Anderson@gmail.com', '{GERENTE}')
+
+insert into client
+(id, client_id, client_secret, redirect_uri, scope)
+values
+( uuid_generate_v4(), 'client-production', '$2a$12$m3gIWTryMR1L9A1XCTe7Q.UOPw0oINmoavFy5U2B4.GNur4HXULlq',
+'http://localhost:8080/authorized', 'GERENTE')
